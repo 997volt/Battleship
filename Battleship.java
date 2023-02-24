@@ -1,22 +1,30 @@
 package battleship;
 
-import java.util.Arrays;
+import java.util.Scanner;
 
 public class Battleship {
 
     private final int boardSize = 10;
-    private char[][] field = new char[boardSize][boardSize];
+    private final int[][] field = new int[boardSize][boardSize];
+    private final Ship[] ships = new Ship[5];
 
     public Battleship(){
         resetBoard();
-        showBoard();
+        placeAllShips();
     }
 
     private void resetBoard(){
         for (int i = 0; i < boardSize; i++) {
             for (int j = 0; j < boardSize; j++) {
-                field[i][j] = '~';
+                field[i][j] = '0';
             }
+        }
+    }
+
+    private void updateBoard(){
+        for (Ship s : ships ) {
+            s.checkShip("");
+            field[0][0] = 10;
         }
     }
 
@@ -30,12 +38,26 @@ public class Battleship {
                 } else if (j == -1) {
                     char rowID = (char)(i + 'A');
                     System.out.print(rowID + " ");
+                } else if (field[i][j] > 10) {
+                    System.out.print("O ");
                 } else {
-                    System.out.print(field[i][j] + " ");
+                    System.out.print("~ ");
                 }
             }
             System.out.print("\n");
         }
+        System.out.println();
     }
 
+    private void placeAllShips()
+    {
+        Scanner in = new Scanner(System.in);
+        showBoard();
+        System.out.println("Enter the coordinates of the Aircraft Carrier (5 cells):");
+        System.out.println();
+        ships[0] = new Ship(in.nextLine(),5);
+        updateBoard();
+        System.out.println();
+        showBoard();
+    }
 }
