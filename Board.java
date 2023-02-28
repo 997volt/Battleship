@@ -31,6 +31,8 @@ public class Board {
                 } else if (j == -1) {
                     char rowID = (char)(i + 'A');
                     System.out.print(rowID);
+                } else if (boardArray[i][j] == 10){
+                    System.out.print(shipSymbol);
                 } else {
                     System.out.print(waterSymbol);
                 }
@@ -46,6 +48,9 @@ public class Board {
         for (Ship ship: ships) {
             if (ship != null){
                 int[][] coordinates = ship.getCoordinates();
+                for ( int[] c : coordinates ) {
+                    boardArray[c[0]][c[1]] = 10;
+                }
             }
         }
     }
