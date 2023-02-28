@@ -4,16 +4,9 @@ import java.util.*;
 
 public class Battleship {
 
-    private final int[] shipsSizes = {5,4,3,3,2};
-    private final String[] shipPrompts = {
-            "Enter the coordinates of the Aircraft Carrier (5 cells):",
-            "Enter the coordinates of the Battleship (4 cells):",
-            "Enter the coordinates of the Submarine (3 cells):",
-            "Enter the coordinates of the Cruiser (3 cells):",
-            "Enter the coordinates of the Destroyer (2 cells):"
-    };
+    private final int shipsNumber = 5;
     private Board gameboard;
-    private Ship[] ships = new Ship[5];
+    private Ship[] ships = new Ship[shipsNumber];
 
 
     public Battleship(){
@@ -23,17 +16,13 @@ public class Battleship {
 
     private void placeAllShips()
     {
-        Scanner in = new Scanner(System.in);
+        ShipFactory shipFactory = new ShipFactory();
         gameboard.showBoard();
 
-        for (int i = 0; i < shipsSizes.length; i++) {
-            System.out.println(shipPrompts[i]);
-            System.out.println();
-            ships[i] = new Ship(
-                    in.nextLine().trim().toUpperCase(), shipsSizes[i]
-            );
+        for (int i = 0; i < shipsNumber; i++) {
+
+            ships[i] = shipFactory.CreateShip(i);
             gameboard.updateBoard(ships);
-            gameboard.showBoard();
         }
     }
 }

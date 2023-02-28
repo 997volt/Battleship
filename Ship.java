@@ -1,14 +1,13 @@
 package battleship;
 
 public class Ship {
+    private int[][] coordinates;
 
-    private Coordinates coordinates;
-
-    public Ship(String userInput, int size){
-        coordinates = new Coordinates(userInput);
+    public Ship(int[][] coordinates) {
+        this.coordinates = coordinates;
     }
 
     public int[][] getCoordinates() {
-        return coordinates.getCoordinates();
+        return coordinates;
     }
 }
