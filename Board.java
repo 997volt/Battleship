@@ -53,9 +53,9 @@ public class Board {
     public void placeShip(List<Ship> ships) {
         for (Ship ship: ships) {
             if (ship != null){
-                int[][] coordinates = ship.getCoordinates();
-                for ( int[] c : coordinates ) {
-                    boardArray[c[0]][c[1]] = 10;
+                List<Coordinates> coordinates = ship.getCoordinates();
+                for ( Coordinates c : coordinates ) {
+                    boardArray[c.getX()][c.getY()] = 10;
                 }
             }
         }
@@ -65,14 +65,14 @@ public class Board {
     public void takeShot(List<Ship> ships, List<Coordinates> misses) {
         for (Ship ship: ships) {
             if (ship != null){
-                int[][] coordinates = ship.getCoordinates();
+                List<Coordinates> coordinates = ship.getCoordinates();
                 boolean[] hits = ship.getHits();
                 for (int i = 0; i < hits.length; i++) {
                     if (hits[i])
                     {
-                        boardArray[coordinates[i][0]][coordinates[i][1]] = 20;
+                        boardArray[coordinates.get(i).getX()][coordinates.get(i).getY()] = 20;
                     } else {
-                        boardArray[coordinates[i][0]][coordinates[i][1]] = 10;
+                        boardArray[coordinates.get(i).getX()][coordinates.get(i).getY()] = 10;
                     }
                 }
             }

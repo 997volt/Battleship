@@ -1,5 +1,7 @@
 package battleship;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class ShipFactory {
@@ -20,7 +22,7 @@ public class ShipFactory {
         int[][] boardPoints = setBoardPoints(getUserInput(shipNumber, print));
         boolean isHorizontal = setIsHorizontal(boardPoints);
         int size = getSize(shipNumber, isHorizontal, boardPoints);
-        int[][] coordinates = setCoordinates(isHorizontal, size, boardPoints);
+        List<Coordinates> coordinates = setCoordinates(isHorizontal, size, boardPoints);
 
         return new Ship(coordinates);
     }
@@ -74,23 +76,21 @@ public class ShipFactory {
         return size;
     }
 
-    private int[][] setCoordinates(boolean isHorizontal, int size, int[][] boardPoints) {
-        int[][] coordinates = new int[size][2];
+    private List<Coordinates> setCoordinates(boolean isHorizontal, int size, int[][] boardPoints) {
+        List<Coordinates> coordinates = new ArrayList<Coordinates>();
 
         for (int i = 0; i < size; i++) {
             if ( isHorizontal ){
-                coordinates[i][0] = boardPoints[0][0];
                 if (boardPoints[0][1] < boardPoints[1][1]){
-                    coordinates[i][1] = boardPoints[0][1] + i;
+                    coordinates.add( new Coordinates(boardPoints[0][0], boardPoints[0][1] + i));
                 } else {
-                    coordinates[i][1] = boardPoints[1][1] + i;
+                    coordinates.add( new Coordinates(boardPoints[0][0], boardPoints[1][1] + i));
                 }
             } else {
-                coordinates[i][1] = boardPoints[1][1];
                 if (boardPoints[0][0] < boardPoints[1][0]){
-                    coordinates[i][0] = boardPoints[0][0] + i;
+                    coordinates.add( new Coordinates(boardPoints[0][0] + i, boardPoints[1][1]));
                 } else {
-                    coordinates[i][0] = boardPoints[1][0] + i;
+                    coordinates.add( new Coordinates(boardPoints[1][0] + i, boardPoints[1][1]));
                 }
             }
         }

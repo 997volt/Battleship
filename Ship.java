@@ -1,18 +1,22 @@
 package battleship;
 
 import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Ship {
-    private int[][] coordinates;
+
     private boolean[] hits;
 
-    public Ship(int[][] coordinates) {
+    private List<Coordinates> coordinates = new ArrayList<Coordinates>();
+
+    public Ship(List<Coordinates> coordinates) {
         this.coordinates = coordinates;
-        this.hits = new boolean[coordinates.length];
+        this.hits = new boolean[coordinates.size()];
         for (boolean hit: hits) { hit = false; }
     }
 
-    public int[][] getCoordinates() {
+    public List<Coordinates> getCoordinates() {
         return coordinates;
     }
 
@@ -23,10 +27,10 @@ public class Ship {
     public void checkCollision(Ship other){
         if (other == null) { return; }
 
-        for (int[] c1: this.coordinates) {
-            for (int[] c2: other.getCoordinates()) {
-                int xDist = Math.abs(c1[0] - c2[0]);
-                int yDist = Math.abs(c1[1] - c2[1]);
+        for (Coordinates c1: this.coordinates) {
+            for (Coordinates c2: other.getCoordinates()) {
+                int xDist = Math.abs(c1.getX() - c2.getX());
+                int yDist = Math.abs(c1.getY() - c2.getY());
                 if (xDist <= 1 && yDist <= 1){
                     throw new Error("Error! You placed it too close to another one. Try again:");
                 }
@@ -36,8 +40,8 @@ public class Ship {
 
     public boolean checkShot(Coordinates shot) {
         boolean hit = false;
-        for (int i = 0; i < coordinates.length; i++) {
-            if (shot.getX() == coordinates[i][0] && shot.getY() == coordinates[i][1]) {
+        for (int i = 0; i < coordinates.size(); i++) {
+            if (shot.getX() == coordinates.get(i).getX() && shot.getY() == coordinates.get(i).getY()) {
                 hits[i] = true;
                 hit = true;
             }

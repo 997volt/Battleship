@@ -22,6 +22,15 @@ public class Coordinates {
         }
     }
 
+    Coordinates(int[] array){
+        x = array[0];
+        y = array[1];
+    }
+    Coordinates(int x, int y){
+        this.x = x;
+        this.y = y;
+    }
+
     public int getX() {
         return x;
     }
