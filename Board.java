@@ -35,6 +35,10 @@ public class Board {
                     System.out.print(rowID);
                 } else if (boardArray[i][j] == 10){
                     System.out.print(shipSymbol);
+                } else if (boardArray[i][j] == 20){
+                    System.out.print(hitSymbol);
+                } else if (boardArray[i][j] == 30){
+                    System.out.print(missSymbol);
                 } else {
                     System.out.print(waterSymbol);
                 }
@@ -46,7 +50,7 @@ public class Board {
     }
 
 
-    public void updateBoard(List<Ship> ships) {
+    public void placeShip(List<Ship> ships) {
         for (Ship ship: ships) {
             if (ship != null){
                 int[][] coordinates = ship.getCoordinates();
@@ -54,6 +58,27 @@ public class Board {
                     boardArray[c[0]][c[1]] = 10;
                 }
             }
+        }
+        showBoard();
+    }
+
+    public void takeShot(List<Ship> ships, List<int[]> misses) {
+        for (Ship ship: ships) {
+            if (ship != null){
+                int[][] coordinates = ship.getCoordinates();
+                boolean[] hits = ship.getHits();
+                for (int i = 0; i < hits.length; i++) {
+                    if (hits[i])
+                    {
+                        boardArray[coordinates[i][0]][coordinates[i][1]] = 20;
+                    } else {
+                        boardArray[coordinates[i][0]][coordinates[i][1]] = 10;
+                    }
+                }
+            }
+        }
+        for ( int[] miss : misses ) {
+            boardArray[miss[0]][miss[1]] = 30;
         }
         showBoard();
     }

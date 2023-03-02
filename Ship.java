@@ -4,19 +4,24 @@ import java.lang.reflect.Array;
 
 public class Ship {
     private int[][] coordinates;
+    private boolean[] hits;
 
     public Ship(int[][] coordinates) {
         this.coordinates = coordinates;
+        this.hits = new boolean[coordinates.length];
+        for (boolean hit: hits) { hit = false; }
     }
 
     public int[][] getCoordinates() {
         return coordinates;
     }
 
+    public boolean[] getHits() {
+        return hits;
+    }
+
     public void checkCollision(Ship other){
-        if (other == null) {
-            return;
-        }
+        if (other == null) { return; }
 
         for (int[] c1: this.coordinates) {
             for (int[] c2: other.getCoordinates()) {
@@ -28,5 +33,15 @@ public class Ship {
             }
         }
     }
-    
+
+    public boolean checkShot(int[] shot) {
+        boolean hit = false;
+        for (int i = 0; i < coordinates.length; i++) {
+            if (shot[0] == coordinates[i][0] && shot[1] == coordinates[i][1]) {
+                hits[i] = true;
+                hit = true;
+            }
+        }
+        return hit;
+    }
 }
