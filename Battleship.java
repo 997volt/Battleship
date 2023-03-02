@@ -23,6 +23,9 @@ public class Battleship {
         for (int i = 0; i < shipsNumber;) {
             try{
                 Ship newShip = shipFactory.CreateShip(i, print);
+                for (Ship s: ships) {
+                    newShip.checkCollision(s);
+                }
                 ships[i] = newShip;
                 gameboard.updateBoard(ships);
                 gameboard.showBoard();

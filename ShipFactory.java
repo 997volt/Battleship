@@ -93,7 +93,6 @@ public class ShipFactory {
                     coordinates[i][0] = boardPoints[1][0] + i;
                 }
             }
-
         }
 
         return coordinates;
