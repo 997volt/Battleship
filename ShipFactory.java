@@ -15,9 +15,9 @@ public class ShipFactory {
     };
     public ShipFactory(){}
 
-    public Ship CreateShip(int shipNumber){
+    public Ship CreateShip(int shipNumber, boolean print){
 
-        int[][] boardPoints = setBoardPoints(getUserInput(shipNumber));
+        int[][] boardPoints = setBoardPoints(getUserInput(shipNumber, print));
         boolean isHorizontal = setIsHorizontal(boardPoints);
         int size = getSize(shipNumber, isHorizontal, boardPoints);
         int[][] coordinates = setCoordinates(isHorizontal, size, boardPoints);
@@ -25,9 +25,11 @@ public class ShipFactory {
         return new Ship(coordinates);
     }
 
-    private String[] getUserInput(int shipNumber){
-        System.out.println(shipPrompts[shipNumber]);
-        System.out.println();
+    private String[] getUserInput(int shipNumber, boolean print){
+        if(print){
+            System.out.println(shipPrompts[shipNumber]);
+            System.out.println();
+        }
         return in.nextLine().trim().toUpperCase().split(" ");
     }
 
