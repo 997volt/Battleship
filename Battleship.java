@@ -29,7 +29,7 @@ public class Battleship {
     }
 
     private void takeShot() {
-        Coordinates shot = new Coordinates();
+        Coordinates shot = new Coordinates("");
         boolean hit = false;
         for (Ship s : ships) {
             hit = s.checkShot(shot);

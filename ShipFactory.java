@@ -19,7 +19,7 @@ public class ShipFactory {
 
     public Ship CreateShip(int shipNumber, boolean print){
 
-        int[][] boardPoints = setBoardPoints(getUserInput(shipNumber, print));
+        List<Coordinates> boardPoints = setBoardPoints(getUserInput(shipNumber, print));
         boolean isHorizontal = setIsHorizontal(boardPoints);
         int size = getSize(shipNumber, isHorizontal, boardPoints);
         List<Coordinates> coordinates = setCoordinates(isHorizontal, size, boardPoints);
@@ -35,38 +35,30 @@ public class ShipFactory {
         return in.nextLine().trim().toUpperCase().split(" ");
     }
 
-    private int[][] setBoardPoints(String[] fields){
-        int[][] coordinates = { {-1, -1}, {-1, -1} };
-        for (int i = 0; i < 2; i++) {
-            coordinates[i][0] = fields[i].charAt(0) - 'A';
-            if(fields[i].length() == 2){
-                coordinates[i][1] = fields[i].charAt(1) - '1';
-            } else if (fields[i].length() == 3 && fields[i].substring(1,3).equals("10")) {
-                coordinates[i][1] = 9;
-            } else {
-                throw new Error("Error! Wrong input! Try again:"); // TODO: change message
-            }
-        }
+    private List<Coordinates> setBoardPoints(String[] fields){
+        List<Coordinates> coordinates = new ArrayList<Coordinates>();
+        coordinates.add(new Coordinates(fields[0]));
+        coordinates.add(new Coordinates(fields[1]));
         return coordinates;
     }
 
-    private boolean setIsHorizontal(int[][] coordinates) {
-        if (coordinates[0][0] == coordinates[1][0]){
+    private boolean setIsHorizontal(List<Coordinates> coordinates) {
+        if (coordinates.get(0).getX() == coordinates.get(1).getX()){
             return true;
-        } else if (coordinates[0][1] == coordinates[1][1]) {
+        } else if (coordinates.get(0).getY() == coordinates.get(1).getY()) {
             return false;
         } else {
             throw new Error("Error! Wrong ship location! Try again:");
         }
     }
 
-    private int getSize(int shipNumber, boolean isHorizontal, int[][] c) {
+    private int getSize(int shipNumber, boolean isHorizontal, List<Coordinates> c) {
         int size = 0;
 
         if (isHorizontal){
-            size = Math.abs(c[0][1] - c[1][1]) + 1;
+            size = Math.abs(c.get(0).getY() - c.get(1).getY()) + 1;
         } else {
-            size = Math.abs(c[0][0] - c[1][0]) + 1;
+            size = Math.abs(c.get(0).getX() - c.get(1).getX()) + 1;
         }
 
         if (size != shipsSizes[shipNumber]){
@@ -76,21 +68,21 @@ public class ShipFactory {
         return size;
     }
 
-    private List<Coordinates> setCoordinates(boolean isHorizontal, int size, int[][] boardPoints) {
+    private List<Coordinates> setCoordinates(boolean isHorizontal, int size, List<Coordinates> boardPoints) {
         List<Coordinates> coordinates = new ArrayList<Coordinates>();
 
         for (int i = 0; i < size; i++) {
             if ( isHorizontal ){
-                if (boardPoints[0][1] < boardPoints[1][1]){
-                    coordinates.add( new Coordinates(boardPoints[0][0], boardPoints[0][1] + i));
+                if (boardPoints.get(0).getY() < boardPoints.get(1).getY()){
+                    coordinates.add( new Coordinates(boardPoints.get(0).getX(), boardPoints.get(0).getY() + i));
                 } else {
-                    coordinates.add( new Coordinates(boardPoints[0][0], boardPoints[1][1] + i));
+                    coordinates.add( new Coordinates(boardPoints.get(0).getX(), boardPoints.get(1).getY() + i));
                 }
             } else {
-                if (boardPoints[0][0] < boardPoints[1][0]){
-                    coordinates.add( new Coordinates(boardPoints[0][0] + i, boardPoints[1][1]));
+                if (boardPoints.get(0).getX() < boardPoints.get(1).getX()){
+                    coordinates.add( new Coordinates(boardPoints.get(0).getX() + i, boardPoints.get(1).getY()));
                 } else {
-                    coordinates.add( new Coordinates(boardPoints[1][0] + i, boardPoints[1][1]));
+                    coordinates.add( new Coordinates(boardPoints.get(1).getX() + i, boardPoints.get(1).getY()));
                 }
             }
         }
