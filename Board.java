@@ -1,5 +1,7 @@
 package battleship;
 
+import java.util.List;
+
 public class Board {
     private final int boardSize = 10;
     private final char waterSymbol = '~';
@@ -44,7 +46,7 @@ public class Board {
     }
 
 
-    public void updateBoard(Ship[] ships) {
+    public void updateBoard(List<Ship> ships) {
         for (Ship ship: ships) {
             if (ship != null){
                 int[][] coordinates = ship.getCoordinates();
@@ -53,5 +55,6 @@ public class Board {
                 }
             }
         }
+        showBoard();
     }
 }

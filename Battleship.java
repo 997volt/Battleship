@@ -6,7 +6,7 @@ public class Battleship {
 
     private final int shipsNumber = 5;
     private Board gameboard;
-    private Ship[] ships = new Ship[shipsNumber];
+    private List<Ship> ships = new ArrayList<Ship>();
 
 
     public Battleship(){
@@ -16,26 +16,22 @@ public class Battleship {
 
     private void placeAllShips()
     {
+        boolean print = true;
         ShipFactory shipFactory = new ShipFactory();
         gameboard.showBoard();
-        boolean print = true;
 
         for (int i = 0; i < shipsNumber;) {
             try{
                 Ship newShip = shipFactory.CreateShip(i, print);
-                for (Ship s: ships) {
-                    newShip.checkCollision(s);
-                }
-                ships[i] = newShip;
+                ships.forEach((s) -> { newShip.checkCollision(s); });
+                ships.add(newShip);
                 gameboard.updateBoard(ships);
-                gameboard.showBoard();
                 print = true;
                 i++;
             } catch (Error e) {
                 System.out.println(e.getMessage());
                 print = false;
             }
-
         }
     }
 
