@@ -34,10 +34,10 @@ public class Ship {
         }
     }
 
-    public boolean checkShot(int[] shot) {
+    public boolean checkShot(Coordinates shot) {
         boolean hit = false;
         for (int i = 0; i < coordinates.length; i++) {
-            if (shot[0] == coordinates[i][0] && shot[1] == coordinates[i][1]) {
+            if (shot.getX() == coordinates[i][0] && shot.getY() == coordinates[i][1]) {
                 hits[i] = true;
                 hit = true;
             }

@@ -62,7 +62,7 @@ public class Board {
         showBoard();
     }
 
-    public void takeShot(List<Ship> ships, List<int[]> misses) {
+    public void takeShot(List<Ship> ships, List<Coordinates> misses) {
         for (Ship ship: ships) {
             if (ship != null){
                 int[][] coordinates = ship.getCoordinates();
@@ -77,8 +77,8 @@ public class Board {
                 }
             }
         }
-        for ( int[] miss : misses ) {
-            boardArray[miss[0]][miss[1]] = 30;
+        for ( Coordinates miss : misses ) {
+            boardArray[miss.getX()][miss.getY()] = 30;
         }
         showBoard();
     }

@@ -7,7 +7,7 @@ public class Battleship {
     private final int shipsNumber = 5;
     private Board gameboard;
     private List<Ship> ships = new ArrayList<Ship>();
-    private List<int[]> misses = new ArrayList<int[]>();
+    private List<Coordinates> misses = new ArrayList<Coordinates>();
 
     public Battleship(){
         gameboard = new Board();
@@ -29,7 +29,7 @@ public class Battleship {
     }
 
     private void takeShot() {
-        int[] shot = getShotCoordinates();
+        Coordinates shot = new Coordinates();
         boolean hit = false;
         for (Ship s : ships) {
             hit = s.checkShot(shot);
@@ -43,27 +43,6 @@ public class Battleship {
         }
         System.out.println();
         gameboard.takeShot(ships, misses);
-    }
-
-    private int[] getShotCoordinates() {
-        int[] shot = new int[2];
-        System.out.println("Take a shot!");
-        Scanner in = new Scanner(System.in);
-        System.out.println();
-        String userInput = in.nextLine().trim().toUpperCase();
-        System.out.println();
-        shot[0] = userInput.charAt(0) - 'A';
-        if(userInput.length() == 2){
-            shot[1] = userInput.charAt(1) - '1';
-        } else if (userInput.length() == 3 && userInput.substring(1,3).equals("10")) {
-            shot[1] = 9;
-        } else {
-            throw new Error("Error! You entered the wrong coordinates! Try again:");
-        }
-        if (shot[0] > 9 || shot[0] < 0) {
-            throw new Error("Error! You entered the wrong coordinates! Try again:");
-        }
-        return shot;
     }
 
     private void placeAllShips()
