@@ -19,13 +19,24 @@ public class Battleship {
         System.out.println("The game starts!");
         System.out.println();
         gameboard.showBoard(ships, misses, true);
-        while (true) {
+        while (!areAllSank()) {
             try{
                 takeShot();
             } catch (Error e) {
                 System.out.println(e.getMessage());
             }
         }
+        System.out.println("You sank the last ship. You won. Congratulations!");
+    }
+
+    private boolean areAllSank(){
+        boolean allSank = true;
+        for (Ship ship : ships) {
+            if(!ship.isSank()) {
+                allSank = false;
+            }
+        }
+        return allSank;
     }
 
     private void takeShot() {
@@ -35,19 +46,18 @@ public class Battleship {
             hit = s.checkShot(shot);
             if (hit) { break; }
         }
-        gameboard.showBoard(ships, misses, true);
         if (hit) {
-            System.out.println("You hit a ship!");
+            gameboard.showBoard(ships, misses, true);
+            System.out.println("You hit a ship! Try again:");
         } else {
             misses.add(shot);
-            System.out.println("You missed!");
+            gameboard.showBoard(ships, misses, true);
+            System.out.println("You missed. Try again");
         }
         System.out.println();
-        gameboard.showBoard(ships, misses, false);
     }
 
-    private void placeAllShips()
-    {
+    private void placeAllShips() {
         boolean print = true;
         ShipFactory shipFactory = new ShipFactory();
         gameboard.showBoard(ships, misses, false);

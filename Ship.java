@@ -6,9 +6,9 @@ import java.util.List;
 
 public class Ship {
 
-    private boolean[] hits;
-
     private List<Coordinates> coordinates = new ArrayList<Coordinates>();
+    private boolean[] hits;
+    private boolean sank = false;
 
     public Ship(List<Coordinates> coordinates) {
         this.coordinates = coordinates;
@@ -24,9 +24,12 @@ public class Ship {
         return hits;
     }
 
+    public boolean isSank() {
+        return sank;
+    }
+
     public void checkCollision(Ship other){
         if (other == null) { return; }
-
         for (Coordinates c1: this.coordinates) {
             for (Coordinates c2: other.getCoordinates()) {
                 int xDist = Math.abs(c1.getX() - c2.getX());
@@ -46,6 +49,17 @@ public class Ship {
                 hit = true;
             }
         }
+        checkSank();
         return hit;
+    }
+
+    private void checkSank() {
+        boolean sank = true;
+        for ( boolean hit : hits) {
+            if (!hit) {
+                sank = false;
+            }
+        }
+        this.sank = sank;
     }
 }

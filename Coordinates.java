@@ -11,10 +11,8 @@ public class Coordinates {
         if (input.equals("")){
             input = getUserInput();
         }
-
         x = input.charAt(0) - 'A';
         y = Integer.parseInt(input.substring(1))-1;
-
         if (x < 0 || y < 0 || x > 9 || y > 9) {
             throw new Error("Error! You entered the wrong coordinates! Try again:");
         }
