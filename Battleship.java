@@ -5,20 +5,17 @@ import java.util.*;
 public class Battleship {
 
     private final int shipsNumber = 5;
-    private Board gameboard;
-    private List<Ship> ships = new ArrayList<Ship>();
-    private List<Coordinates> misses = new ArrayList<Coordinates>();
+    private Player player1;
 
     public Battleship(){
-        gameboard = new Board();
-        placeAllShips();
+        player1 = new Player(shipsNumber);
         startGame();
     }
 
     private void startGame() {
         System.out.println("The game starts!");
         System.out.println();
-        gameboard.showBoard(ships, misses, true);
+        Board.showBoard(player1.getShips(), player1.getMisses(), true);
         while (!areAllSank()) {
             try{
                 takeShot();
@@ -31,9 +28,10 @@ public class Battleship {
 
     private boolean areAllSank(){
         boolean allSank = true;
-        for (Ship ship : ships) {
-            if(!ship.isSank()) {
+        for (Ship ship : player1.getShips()) {
+            if (!ship.isSank()) {
                 allSank = false;
+                break;
             }
         }
         return allSank;
@@ -42,39 +40,19 @@ public class Battleship {
     private void takeShot() {
         Coordinates shot = new Coordinates("");
         boolean hit = false;
-        for (Ship s : ships) {
+        for (Ship s : player1.getShips()) {
             hit = s.checkShot(shot);
             if (hit) { break; }
         }
         if (hit) {
-            gameboard.showBoard(ships, misses, true);
+            Board.showBoard(player1.getShips(), player1.getMisses(), true);
             System.out.println("You hit a ship! Try again:");
         } else {
-            misses.add(shot);
-            gameboard.showBoard(ships, misses, true);
+            player1.addMiss(shot);
+            Board.showBoard(player1.getShips(), player1.getMisses(), true);
             System.out.println("You missed. Try again");
         }
         System.out.println();
-    }
-
-    private void placeAllShips() {
-        boolean print = true;
-        ShipFactory shipFactory = new ShipFactory();
-        gameboard.showBoard(ships, misses, false);
-
-        for (int i = 0; i < shipsNumber;) {
-            try{
-                Ship newShip = shipFactory.CreateShip(i, print);
-                ships.forEach((s) -> { newShip.checkCollision(s); });
-                ships.add(newShip);
-                gameboard.showBoard(ships, misses, false);
-                print = true;
-                i++;
-            } catch (Error e) {
-                System.out.println(e.getMessage());
-                print = false;
-            }
-        }
     }
 
 }
