@@ -36,8 +36,45 @@ public class Player {
         return ships;
     }
 
-    public void addMiss(Coordinates miss){
+    private void addMiss(Coordinates miss){
         misses.add(miss);
+    }
+
+    public void showBoard() {
+        Board.showBoard(ships, misses, true);
+    }
+
+    public boolean areAllSank(){
+        boolean allSank = true;
+        for (Ship ship : ships) {
+            if (!ship.isSank()) {
+                allSank = false;
+                break;
+            }
+        }
+        return allSank;
+    }
+
+    public void takeShot() {
+        Coordinates shot = new Coordinates("");
+        boolean hit = false;
+        try{
+            for (Ship s : ships) {
+                hit = s.checkShot(shot);
+                if (hit) { break; }
+            }
+            if (hit) {
+                showBoard();
+                System.out.println("You hit a ship! Try again:");
+            } else {
+                addMiss(shot);
+                showBoard();
+                System.out.println("You missed. Try again");
+            }
+        } catch (Error e) {
+            System.out.println(e.getMessage());
+        }
+        System.out.println();
     }
 
 }
