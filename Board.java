@@ -8,22 +8,13 @@ public class Board {
     private final char shipSymbol = 'O';
     private final char hitSymbol = 'X';
     private final char missSymbol = 'M';
-    private int[][] boardArray;
+    private char[][] boardArray;
 
     Board(){
-        boardArray = new int[boardSize][boardSize];
-        resetBoard();
+        boardArray = new char[boardSize][boardSize];
     }
 
-    private void resetBoard(){
-        for (int i = 0; i < boardSize; i++) {
-            for (int j = 0; j < boardSize; j++) {
-                boardArray[i][j] = 0;
-            }
-        }
-    }
-
-    public void showBoard(){
+    public void printBoard(){
         for (int i = -1; i < boardSize; i++) {
             for (int j = -1; j < boardSize; j++) {
                 if (i == -1 && j == -1) {
@@ -33,14 +24,8 @@ public class Board {
                 } else if (j == -1) {
                     char rowID = (char)(i + 'A');
                     System.out.print(rowID);
-                } else if (boardArray[i][j] == 10){
-                    System.out.print(shipSymbol);
-                } else if (boardArray[i][j] == 20){
-                    System.out.print(hitSymbol);
-                } else if (boardArray[i][j] == 30){
-                    System.out.print(missSymbol);
                 } else {
-                    System.out.print(waterSymbol);
+                    System.out.print(boardArray[i][j]);
                 }
                 System.out.print(' ');
             }
@@ -49,37 +34,42 @@ public class Board {
         System.out.println();
     }
 
-
-    public void placeShip(List<Ship> ships) {
-        for (Ship ship: ships) {
-            if (ship != null){
-                List<Coordinates> coordinates = ship.getCoordinates();
-                for ( Coordinates c : coordinates ) {
-                    boardArray[c.getX()][c.getY()] = 10;
-                }
-            }
-        }
-        showBoard();
+    public void showBoard(List<Ship> ships, List<Coordinates> misses) {
+        cleanBoard();
+        placeMisses(misses);
+        placeShips(ships);
+        printBoard();
     }
 
-    public void takeShot(List<Ship> ships, List<Coordinates> misses) {
+    private void cleanBoard() {
+        for (int i = 0; i < boardSize; i++) {
+            for (int j = 0; j < boardSize; j++) {
+                boardArray[i][j] = waterSymbol;
+            }
+        }
+    }
+
+    private void placeMisses(List<Coordinates> misses) {
+        for ( Coordinates miss : misses ) {
+            boardArray[miss.getX()][miss.getY()] = missSymbol;
+        }
+    }
+
+    private void placeShips(List<Ship> ships) {
         for (Ship ship: ships) {
             if (ship != null){
                 List<Coordinates> coordinates = ship.getCoordinates();
                 boolean[] hits = ship.getHits();
                 for (int i = 0; i < hits.length; i++) {
-                    if (hits[i])
-                    {
-                        boardArray[coordinates.get(i).getX()][coordinates.get(i).getY()] = 20;
+                    int x = coordinates.get(i).getX();
+                    int y = coordinates.get(i).getY();
+                    if (hits[i]) {
+                        boardArray[x][y] = hitSymbol;
                     } else {
-                        boardArray[coordinates.get(i).getX()][coordinates.get(i).getY()] = 10;
+                        boardArray[x][y] = shipSymbol;
                     }
                 }
             }
         }
-        for ( Coordinates miss : misses ) {
-            boardArray[miss.getX()][miss.getY()] = 30;
-        }
-        showBoard();
     }
 }
