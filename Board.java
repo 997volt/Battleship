@@ -34,10 +34,10 @@ public class Board {
         System.out.println();
     }
 
-    public void showBoard(List<Ship> ships, List<Coordinates> misses) {
+    public void showBoard(List<Ship> ships, List<Coordinates> misses, boolean fogOfWar) {
         cleanBoard();
         placeMisses(misses);
-        placeShips(ships);
+        placeShips(ships, fogOfWar);
         printBoard();
     }
 
@@ -55,9 +55,9 @@ public class Board {
         }
     }
 
-    private void placeShips(List<Ship> ships) {
+    private void placeShips(List<Ship> ships, boolean fogOfWar) {
         for (Ship ship: ships) {
-            if (ship != null){
+            if (ship != null) {
                 List<Coordinates> coordinates = ship.getCoordinates();
                 boolean[] hits = ship.getHits();
                 for (int i = 0; i < hits.length; i++) {
@@ -65,7 +65,7 @@ public class Board {
                     int y = coordinates.get(i).getY();
                     if (hits[i]) {
                         boardArray[x][y] = hitSymbol;
-                    } else {
+                    } else if (!fogOfWar) {
                         boardArray[x][y] = shipSymbol;
                     }
                 }

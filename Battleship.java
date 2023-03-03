@@ -18,7 +18,7 @@ public class Battleship {
     private void startGame() {
         System.out.println("The game starts!");
         System.out.println();
-        gameboard.showBoard(ships, misses);
+        gameboard.showBoard(ships, misses, true);
         while (true) {
             try{
                 takeShot();
@@ -35,6 +35,7 @@ public class Battleship {
             hit = s.checkShot(shot);
             if (hit) { break; }
         }
+        gameboard.showBoard(ships, misses, true);
         if (hit) {
             System.out.println("You hit a ship!");
         } else {
@@ -42,21 +43,21 @@ public class Battleship {
             System.out.println("You missed!");
         }
         System.out.println();
-        gameboard.showBoard(ships, misses);
+        gameboard.showBoard(ships, misses, false);
     }
 
     private void placeAllShips()
     {
         boolean print = true;
         ShipFactory shipFactory = new ShipFactory();
-        gameboard.showBoard(ships, misses);
+        gameboard.showBoard(ships, misses, false);
 
         for (int i = 0; i < shipsNumber;) {
             try{
                 Ship newShip = shipFactory.CreateShip(i, print);
                 ships.forEach((s) -> { newShip.checkCollision(s); });
                 ships.add(newShip);
-                gameboard.showBoard(ships, misses);
+                gameboard.showBoard(ships, misses, false);
                 print = true;
                 i++;
             } catch (Error e) {
