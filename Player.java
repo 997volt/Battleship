@@ -5,10 +5,12 @@ import java.util.List;
 
 public class Player {
 
-    private List<Ship> ships = new ArrayList<Ship>();
-    private List<Coordinates> misses = new ArrayList<Coordinates>();
+    private List<Ship> ships;
+    private List<Coordinates> misses;
 
     Player(int shipsNumber) {
+        ships = new ArrayList<Ship>();
+        misses = new ArrayList<Coordinates>();
         boolean print = true;
         ShipFactory shipFactory = new ShipFactory();
         Board.showBoard(ships, misses, false);
@@ -64,12 +66,10 @@ public class Player {
                 if (hit) { break; }
             }
             if (hit) {
-                showBoard();
-                System.out.println("You hit a ship! Try again:");
+                System.out.println("You hit a ship!");
             } else {
                 addMiss(shot);
-                showBoard();
-                System.out.println("You missed. Try again");
+                System.out.println("You missed.");
             }
         } catch (Error e) {
             System.out.println(e.getMessage());

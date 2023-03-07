@@ -17,6 +17,12 @@ public class Board {
         printBoard();
     }
 
+    public static void showBoards(Player self, Player other) {
+        showBoard(other.getShips(), other.getMisses(), true);
+        System.out.println("---------------------");
+        showBoard(self.getShips(), self.getMisses(), false);
+    }
+
     private static void cleanBoard() {
         boardArray = new char[boardSize][boardSize];
         for (int i = 0; i < boardSize; i++) {
@@ -67,7 +73,6 @@ public class Board {
             }
             System.out.print("\n");
         }
-        System.out.println();
     }
 
 }

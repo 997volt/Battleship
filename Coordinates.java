@@ -19,7 +19,6 @@ public class Coordinates {
     }
 
     private String getUserInput() {
-        System.out.println("Take a shot!");
         Scanner in = new Scanner(System.in);
         System.out.println();
         String userInput = in.nextLine().trim().toUpperCase();
