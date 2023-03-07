@@ -60,6 +60,9 @@ public class Ship {
                 sank = false;
             }
         }
+        if(sank) {
+            System.out.println("You sank a ship!");
+        }
         this.sank = sank;
     }
 }

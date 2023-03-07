@@ -75,6 +75,9 @@ public class Player {
             System.out.println(e.getMessage());
         }
         System.out.println();
+        if (areAllSank()){
+            System.out.println("You sank the last ship. You won. Congratulations!");
+        }
     }
 
 }
