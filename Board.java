@@ -17,7 +17,10 @@ public class Board {
         printBoard();
     }
 
-    public static void showBoards(Player self, Player other) {
+    public static void showBoards(int playerNumber, Player self, Player other) {
+        System.out.println();
+        System.out.println(String.format("Player 1, it's your turn:", playerNumber));
+        System.out.println();
         showBoard(other.getShips(), other.getMisses(), true);
         System.out.println("---------------------");
         showBoard(self.getShips(), self.getMisses(), false);

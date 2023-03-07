@@ -2,17 +2,20 @@ package battleship;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class Player {
 
     private List<Ship> ships;
     private List<Coordinates> misses;
 
-    Player(int shipsNumber) {
+    Player(int playerNumber, int shipsNumber) {
         ships = new ArrayList<Ship>();
         misses = new ArrayList<Coordinates>();
         boolean print = true;
         ShipFactory shipFactory = new ShipFactory();
+
+        System.out.println(String.format("Player %d, place your ships on the game field", playerNumber));
         Board.showBoard(ships, misses, false);
 
         for (int i = 0; i < shipsNumber;) {
@@ -28,6 +31,8 @@ public class Player {
                 print = false;
             }
         }
+        System.out.println("Press Enter and pass the move to another player");
+        new Scanner(System.in).nextLine();
     }
 
     public List<Coordinates> getMisses() {
@@ -77,6 +82,10 @@ public class Player {
         System.out.println();
         if (areAllSank()){
             System.out.println("You sank the last ship. You won. Congratulations!");
+        }
+        else {
+            System.out.println("Press Enter and pass the move to another player");
+            new Scanner(System.in).nextLine();
         }
     }
 
