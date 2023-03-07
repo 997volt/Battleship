@@ -17,20 +17,22 @@ public class ShipFactory {
     };
     public ShipFactory(){}
 
-    public Ship CreateShip(int shipNumber, boolean print){
+    public Ship CreateShip(int shipNumber, String errorMessage){
 
-        List<Coordinates> boardPoints = setBoardPoints(getUserInput(shipNumber, print));
+        List<Coordinates> boardPoints = setBoardPoints(getUserInput(shipNumber, errorMessage));
         int size = getSize(shipNumber, boardPoints);
         List<Coordinates> coordinates = setCoordinates(size, boardPoints);
 
         return new Ship(coordinates);
     }
 
-    private String[] getUserInput(int shipNumber, boolean print){
-        if(print){
+    private String[] getUserInput(int shipNumber, String errorMessage){
+        if(errorMessage.equals("")){
             System.out.println(shipPrompts[shipNumber]);
-            System.out.println();
+        } else {
+            System.out.println(errorMessage);
         }
+        System.out.println();
         return in.nextLine().trim().toUpperCase().split(" ");
     }
 

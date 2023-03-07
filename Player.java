@@ -6,33 +6,32 @@ import java.util.Scanner;
 
 public class Player {
 
-    private List<Ship> ships;
-    private List<Coordinates> misses;
+    private List<Ship> ships = new ArrayList<Ship>();
+    private List<Coordinates> misses = new ArrayList<Coordinates>();
+    private Scanner in = new Scanner(System.in);
 
     Player(int playerNumber, int shipsNumber) {
-        ships = new ArrayList<Ship>();
-        misses = new ArrayList<Coordinates>();
-        boolean print = true;
         ShipFactory shipFactory = new ShipFactory();
+        String errorMessage = "";
 
         System.out.println(String.format("Player %d, place your ships on the game field", playerNumber));
         Board.showBoard(ships, misses, false);
 
         for (int i = 0; i < shipsNumber;) {
             try{
-                Ship newShip = shipFactory.CreateShip(i, print);
+                Ship newShip = shipFactory.CreateShip(i, errorMessage);
                 ships.forEach((s) -> { newShip.checkCollision(s); });
                 ships.add(newShip);
                 Board.showBoard(ships, misses, false);
-                print = true;
+                errorMessage = "";
                 i++;
             } catch (Error e) {
-                System.out.println(e.getMessage());
-                print = false;
+                errorMessage = e.getMessage();
             }
         }
+
         System.out.println("Press Enter and pass the move to another player");
-        new Scanner(System.in).nextLine();
+        in.nextLine();
     }
 
     public List<Coordinates> getMisses() {
@@ -41,14 +40,6 @@ public class Player {
 
     public List<Ship> getShips() {
         return ships;
-    }
-
-    private void addMiss(Coordinates miss){
-        misses.add(miss);
-    }
-
-    public void showBoard() {
-        Board.showBoard(ships, misses, true);
     }
 
     public boolean areAllSank(){
@@ -64,29 +55,30 @@ public class Player {
 
     public void takeShot() {
         Coordinates shot = new Coordinates("");
-        boolean hit = false;
-        try{
-            for (Ship s : ships) {
-                hit = s.checkShot(shot);
-                if (hit) { break; }
+
+        if (isHit(shot)) {
+            System.out.println("You hit a ship!");
+            if (areAllSank()){
+                System.out.println("You sank the last ship. You won. Congratulations!");
+                in.nextLine();
             }
-            if (hit) {
-                System.out.println("You hit a ship!");
-            } else {
-                addMiss(shot);
-                System.out.println("You missed.");
-            }
-        } catch (Error e) {
-            System.out.println(e.getMessage());
+        } else {
+            misses.add(shot);
+            System.out.println("You missed.");
         }
-        System.out.println();
-        if (areAllSank()){
-            System.out.println("You sank the last ship. You won. Congratulations!");
-        }
-        else {
-            System.out.println("Press Enter and pass the move to another player");
-            new Scanner(System.in).nextLine();
-        }
+
+        System.out.println("Press Enter and pass the move to another player");
+        in.nextLine();
     }
 
+    private boolean isHit(Coordinates shot) {
+        boolean hit = false;
+        for (Ship s : ships) {
+            if (s.checkShot(shot)) {
+                hit = true;
+                break;
+            }
+        }
+        return hit;
+    }
 }
